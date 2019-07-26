@@ -3,6 +3,7 @@ $red-coople: #E0004D;
 #title {
   color: $red-coople;
   text-shadow: 2px 2px 4px grey;
+  margin-top: 1em;
 }
 
 table {
@@ -31,4 +32,8 @@ tr:nth-child(even) {
 hr {
   border-top: 3px solid grey;
   margin-bottom: 1.5em;
+}
+
+button {
+  margin-top: 1em;
 }
