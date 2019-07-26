@@ -57,8 +57,7 @@
     </tr>
     <tr *ngFor='let item of this.addressList; let i = index' (click)="itemSelected(item, i)">
       <td>{{item.name}}</td>
-      <td>{{item.address.zip}}</td>
-      <td>{{item.address.country}}</td>
+      <td>{{item | formattedAddress}}</td>
     </tr>
   </table>
 </div>
