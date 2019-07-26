@@ -1,19 +1,38 @@
 <div class="container">
-  <h1 id="title">Address Book<hr></h1>
+  <h1 id="title">Address Book
+    <hr>
+  </h1>
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-sm-6">
-      <form [hidden]="addressList.length < 1 && showMainScreen == true" (ngSubmit)="onSubmit()" #AddressForm="ngForm" novalidate>
+  <form [hidden]="addressList.length < 1 && showMainScreen == true" (ngSubmit)="onSubmit()" #AddressForm="ngForm"
+        novalidate>
+    <div class="row">
+
+      <div class="col-sm-6">
         <div class="form-group">
-          <label for="name">Street</label>
-          <input type="text" class="form-control" name="name" id="name" required
+          <label for="name">Name and family name</label>
+          <input type="text" class="form-control" name="name" id="name" maxlength="25" required
                  [(ngModel)]="current_name" #name="ngModel" [disabled]="this.showingItem && !this.editingItem">
           <div [hidden]="name.valid || !name.touched || this.showingItem" class="alert alert-danger">
+            Name is required
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="street">Street and number</label>
+          <input type="text" class="form-control" name="street" id="street" maxlength="25" required
+                 [(ngModel)]="current_street" #street="ngModel" [disabled]="this.showingItem && !this.editingItem">
+          <div [hidden]="street.valid || !street.touched || this.showingItem" class="alert alert-danger">
             Street is required
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row">
 
+      <div class="col-sm-6">
         <div class="form-group">
           <label for="zip">ZIP</label>
           <input type="text" class="form-control" name="zip" id="zip" maxlength="5" required
@@ -22,42 +41,71 @@
             ZIP code is required
           </div>
         </div>
+      </div>
 
+      <div class="col-sm-6">
         <div class="form-group">
           <label for="country">Country</label>
-          <select name="country" class="form-control" id="country" [(ngModel)]="current_country" #country="ngModel" [disabled]="this.showingItem && !this.editingItem">
-            <option *ngFor='let country of country_list'[value]="country">{{country}}</option>
+          <select name="country" class="form-control" id="country" [ngModel]="current_country" required
+                  (change)="changeCurrentCountryValue($event.target.value)" #country="ngModel"
+                  [disabled]="this.showingItem && !this.editingItem">
+            <option *ngFor='let country of country_list' [value]="country">{{country}}</option>
           </select>
         </div>
+      </div>
+    </div>
+    <div class="row">
 
-        <button type="button" class="btn btn-danger" *ngIf="this.editingItem" (click) = "this.editingItem = false">Discard changes</button>
-        <button type="submit" class="btn btn-success" *ngIf="!this.showingItem || this.editingItem" [disabled]="AddressForm.invalid">
-          {{ this.editingItem == true ? 'Save changes' : 'Save as a new address' }}
-        </button>
-        <button type="button" class="btn btn-primary" *ngIf="this.showingItem && !this.editingItem" (click) = "this.editingItem = true">Edit</button>
-        <button type="button" class="btn btn-danger" *ngIf="this.showingItem && !this.editingItem" (click) = "this.deleteItem(); AddressForm.reset(); showingItem = false">Delete</button>
-      </form></div>
-  </div>
+      <div style="margin-left: 1em;">
+        <div>
+          <button type="button" class="btn btn-danger btn-md" *ngIf="this.editingItem"
+                  (click)="this.editingItem = false">
+            Discard changes
+          </button>
+          <button type="button" class="btn btn-default btn-md" *ngIf="!this.editingItem && this.showingItem"
+                  (click)="this.editingItem = false; AddressForm.reset(); this.showingItem = false; this.editingItem = false">
+            Back to new address
+          </button>
+          <button *ngIf="!this.showingItem || this.editingItem" type="submit"
+                  class="btn btn-md" [ngClass]="(this.editingItem == true) ? 'btn-success':'btn-default'"
+                  [disabled]="AddressForm.invalid">
+            {{ this.editingItem == true ? 'Save changes' : 'Save as a new address' }}
+          </button>
+          <button type="button" class="btn btn-primary btn-md" *ngIf="this.showingItem && !this.editingItem"
+                  (click)="this.editingItem = true">Edit
+          </button>
+          <button type="button" class="btn btn-danger btn-md" *ngIf="this.showingItem && !this.editingItem"
+                  (click)="this.deleteItem(); AddressForm.reset(); showingItem = false">Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
 
 <div class="container">
   <div *ngIf="addressList.length < 1 && showMainScreen == true">
     <h2>Welcome to the Address Book!</h2>
-    <h3>Your book is empty!</h3><br>
-    <button type="button" class="btn btn-default btn-lg" (click) = "showMainScreen = false">Create new address</button>
+    <h3>Your book is empty. Start creating a new address.</h3>
+    <button type="button" class="btn btn-default btn-lg" (click)="showMainScreen = false; showMainScreen = false;">
+      Create a new address
+    </button>
   </div>
 </div>
 
-<div class="container" [hidden]="addressList.length < 1">
+<div class="container" *ngIf="showMainScreen == false">
   <table>
     <tr>
-      <th>Street</th>
-      <th>ZIP code</th>
-      <th>Country</th>
+      <th>Name</th>
+      <th>Address</th>
     </tr>
     <tr *ngFor='let item of this.addressList; let i = index' (click)="itemSelected(item, i)">
       <td>{{item.name}}</td>
       <td>{{item | formattedAddress}}</td>
+    </tr>
+    <tr *ngIf='addressList.length < 1'>
+      <td>The book is empty.</td>
+      <td></td>
     </tr>
   </table>
 </div>

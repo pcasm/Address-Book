@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -27,9 +27,9 @@ export class MainPage {
 
   public addressList: Address[] = [];
   public current_name: string;
-  public current_streetName: string;
+  public current_street: string;
   public current_zip: string;
-  public current_country: string = 'United Kingdom';
+  public current_country: string;
   public current_index: number;
   public editingItem = false;
   public showingItem = false;
@@ -40,18 +40,19 @@ export class MainPage {
   onSubmit() {
     // Create a new element if we are not editing an existing one. Otherwise, modify selected element
     if (!this.editingItem) {
-      this.addressList.push({name: this.current_name, address: {streetName: this.current_streetName, zip: this.current_zip, country: this.current_country} });
+      this.addressList.push({name: this.current_name, address: {street: this.current_street, zip: this.current_zip, country: this.current_country} });
       this.AddressForm.reset();
     }
     else {
       this.addressList[this.current_index] = ({name: this.current_name,
-        address: {streetName: this.current_streetName, zip: this.current_zip, country: this.current_country} });
+        address: {street: this.current_street, zip: this.current_zip, country: this.current_country} });
       this.editingItem = false;
     }
   }
 
   itemSelected (item, index) {
     this.current_name = item.name;
+    this.current_street = item.address.street;
     this.current_zip = item.address.zip
     this.current_country = item.address.country;
     this.current_index = index;
@@ -65,8 +66,13 @@ export class MainPage {
 
   resetFormCurrentValues() {
     this.current_name = '';
+    this.current_street = '';
     this.current_zip = '';
-    this.current_country = 'United Kingdom';
+    this.current_country = '';
+  }
+
+  changeCurrentCountryValue(value) {
+    this.current_country = value;
   }
 }
 
@@ -79,7 +85,7 @@ export class Address {
 
 export class AddressDetails {
   constructor(
-    public streetName: string,
+    public street: string,
     public zip: string,
     public country: string
   ) {  }
