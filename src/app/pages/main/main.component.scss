@@ -19,7 +19,7 @@ td, th {
   padding: 8px;
 }
 
-tr:hover td
+tr:hover:not(.empty_book_row) td
 {
   border: 2px solid $red-coople;
   cursor: pointer;

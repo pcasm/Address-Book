@@ -105,7 +105,7 @@
       <td>{{item.name}}</td>
       <td>{{item | formattedAddress}}</td>
     </tr>
-    <tr *ngIf='addressList.length < 1'>
+    <tr class="empty_book_row" *ngIf='addressList.length < 1'>
       <td>The book is empty.</td>
       <td></td>
     </tr>
