@@ -46,9 +46,8 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label for="country">Country</label>
-          <select name="country" class="form-control" id="country" [ngModel]="current_country" required
-                  (change)="changeCurrentCountryValue($event.target.value)" #country="ngModel"
-                  [disabled]="this.showingItem && !this.editingItem">
+          <select class="form-control" name="country" id="country" required
+                  [(ngModel)]="current_country" #country="ngModel" [disabled]="this.showingItem && !this.editingItem">
             <option *ngFor='let country of country_list' [value]="country">{{country}}</option>
           </select>
         </div>
@@ -59,7 +58,7 @@
       <div style="margin-left: 1em;">
         <div>
           <button type="button" class="btn btn-danger btn-md" *ngIf="this.editingItem"
-                  (click)="this.editingItem = false">
+                  (click)="discardChanges()">
             Discard changes
           </button>
           <button type="button" class="btn btn-default btn-md" *ngIf="!this.editingItem && this.showingItem"

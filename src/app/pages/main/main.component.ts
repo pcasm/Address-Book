@@ -53,11 +53,19 @@ export class MainPage {
   itemSelected (item, index) {
     this.current_name = item.name;
     this.current_street = item.address.street;
-    this.current_zip = item.address.zip
+    this.current_zip = item.address.zip;
     this.current_country = item.address.country;
     this.current_index = index;
     this.showingItem = true;
     this.editingItem = false;
+  }
+
+  discardChanges() {
+      this.editingItem = false;
+      this.current_name = this.addressList[this.current_index].name;
+      this.current_street = this.addressList[this.current_index].address.street;
+      this.current_zip = this.addressList[this.current_index].address.zip;
+      this.current_country = this.addressList[this.current_index].address.country;
   }
 
   deleteItem() {
