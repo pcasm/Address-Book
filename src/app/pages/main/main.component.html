@@ -50,6 +50,9 @@
                   [(ngModel)]="current_country" #country="ngModel" [disabled]="this.showingItem && !this.editingItem">
             <option *ngFor='let country of country_list' [value]="country">{{country}}</option>
           </select>
+          <div [hidden]="country.valid || !country.touched || this.showingItem" class="alert alert-danger">
+            Country is required
+          </div>
         </div>
       </div>
     </div>
