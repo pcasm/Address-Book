@@ -8,7 +8,7 @@ import {NgForm} from '@angular/forms';
 })
 
 export class MainPage {
-  @ViewChild('AddressForm') AddressForm;
+  @ViewChild('AddressForm', {static: false}) AddressForm;
 
   public country_list: string[] = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua and Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas"
     ,"Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands"
